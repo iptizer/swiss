@@ -16,6 +16,8 @@ Whis is my personal troubleshooting container. Currently the folowing tools are 
 
 ### Kubernetes
 
+(Note: Newer versions of kubectl deprecate the `--genrator` flag, see [StackOverflow](https://stackoverflow.com/questions/52890718/kubectl-run-is-deprecated-looking-for-alternative) linking to [this PR](https://github.com/kubernetes/kubernetes/pull/87077)) 
+
 ```sh
 kubectl run -it --restart=Never --rm --generator=run-pod/v1 --image=iptizer/swiss swiss -- /bin/bash
 ```
@@ -23,7 +25,7 @@ kubectl run -it --restart=Never --rm --generator=run-pod/v1 --image=iptizer/swis
 ### docker
 
 ```sh
-docker run -it --rm iptizer/swiss swiss -- /bin/bash
+docker run -it --rm iptizer/swiss -- /bin/bash
 ```
 
 Including Proxy:
