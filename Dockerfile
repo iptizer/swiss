@@ -3,7 +3,7 @@ FROM ubuntu:rolling
 WORKDIR /
 
 # install basic tools
-RUN apt-get update && apt-get install -y curl less groff dnsutils netcat tcpdump wget traceroute mtr
+RUN apt-get update && apt-get install -y curl less groff dnsutils netcat tcpdump wget traceroute mtr vim
 
 # build aws cli from git master
 RUN apt-get install -y python3 python3-pip git
