@@ -68,7 +68,7 @@ spec:
   containers:
   - image: iptizer/swiss
     name: troubleshoot
-    imagePullPolicy: always
+    imagePullPolicy: Always
     resources: {}
     args:
     - "sleep 9999"
