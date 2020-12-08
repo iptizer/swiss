@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: swiss
+    type: Deployment
+  name: swiss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swiss
+      type: Deployment
+  template:
+    metadata:
+      labels:
+        app: swiss
+        type: Deployment
+    spec:
+      hostPID: true
+      hostIPC: true
+      hostNetwork: true
+      containers:
+        - image: iptizer/swiss
+          name: troubleshoot
+          imagePullPolicy: Always
+          resources: {}
+          args:
+            # 1 week
+            - "sleep 604.800"
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: host
+              mountPath: "/host"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+        - name: host
+          hostPath:
+            path: "/"

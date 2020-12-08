@@ -28,5 +28,7 @@ wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:st
 apt-key add - < Release.key && apt-get -y update && apt-get -y install skopeo
 
 
-ENTRYPOINT ["/bin/bash","-c"]
-CMD ["bash"]
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
