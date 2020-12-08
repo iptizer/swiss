@@ -1,18 +1,8 @@
 # swiss
 
-Whis is my personal troubleshooting container. Currently the folowing tools are included:
+Troubleshooting container with lots of tools installed.
 
-* kubectl (latest stable)
-* helm
-* awscli (built from git master)
-* dig (dnsutils)
-* tcpdump
-* nc/ netcat
-* curl & wget
-* traceroute & mtr
-* rclone
-* mariadb client tools
-* tmux (Termina multiplexer)
+Container is available on docker hub: [https://hub.docker.com/r/iptizer/swiss](https://hub.docker.com/r/iptizer/swiss)
 
 ## Quickstart
 
@@ -22,9 +12,10 @@ Whis is my personal troubleshooting container. Currently the folowing tools are 
 kubectl run -it --restart=Never --rm --image=iptizer/swiss swiss -- /bin/bash
 ```
 
-Or the deployment/ daemonset within this repo may be used. There are two versions provided:
-* swiss (unprivileged)
-* swiss-host (Extended privileges with host mounted on pod. Use with caution!)
+Deployment/ daemonset within this repo may be used. There are two versions provided:
+
+* Deployment: swiss
+* DaemonSet: swiss-host (Extended privileges with host mounted on pod. Use with caution!)
 
 ```sh
 kubectl create ns troubleshoot
