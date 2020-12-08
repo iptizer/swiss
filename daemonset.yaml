@@ -27,7 +27,9 @@ spec:
           resources: {}
           args:
             # 1 week
-            - "sleep 604.800"
+            - "sh"
+            - "-c"
+            - "sleep 604800"
           securityContext:
             privileged: true
           volumeMounts:

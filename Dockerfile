@@ -2,6 +2,9 @@ FROM ubuntu:latest
 
 WORKDIR /
 
+# set bash as default shell
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 # hack from https://rtfm.co.ua/en/docker-configure-tzdata-and-timezone-during-build/
 # to survive tzdata installation
 ENV TZ=Europe/Berlin
@@ -31,4 +34,4 @@ apt-key add - < Release.key && apt-get -y update && apt-get -y install skopeo
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
-ENTRYPOINT ["/tini", "--"]
+ENTRYPOINT ["/tini", "-s","--"]
