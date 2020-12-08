@@ -12,6 +12,7 @@ Whis is my personal troubleshooting container. Currently the folowing tools are 
 * traceroute & mtr
 * rclone
 * mariadb client tools
+* tmux (Termina multiplexer)
 
 ## Quickstart
 
