@@ -30,7 +30,7 @@ kubectl delete -f daemonset.yaml
 kubectl apply -n troubleshoot -f deployment.yaml
 kubectl scale -n troubleshoot --replicas=1 deploy/swiss
 kubectl wait  -n troubleshoot --timeout=600s --for=condition=available deploy/swiss && \
-kubectl exec -it $( k get po -l "app=swiss" -o jsonpath='{.items[0].metadata.name}' ) -- bash
+kubectl exec -n troubleshoot -it $( k get po -l "app=swiss" -o jsonpath='{.items[0].metadata.name}' ) -- bash
 kubectl scale -n troubleshoot --replicas=0 deploy/swiss
 kubectl delete -f deployment.yaml
 ```
