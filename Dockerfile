@@ -2,13 +2,16 @@ FROM ubuntu:latest
 
 WORKDIR /
 
+# set bash as default shell
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 # hack from https://rtfm.co.ua/en/docker-configure-tzdata-and-timezone-during-build/
 # to survive tzdata installation
 ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # install basic tools
-RUN apt-get update && apt-get install -y curl less groff dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping ncdu iperf3
+RUN apt-get update && apt-get install -y curl less groff dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping ncdu tmux iperf3
 
 # build aws cli from git master
 RUN apt-get install -y python3 python3-pip git
@@ -28,5 +31,7 @@ wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:st
 apt-key add - < Release.key && apt-get -y update && apt-get -y install skopeo
 
 
-ENTRYPOINT ["/bin/bash","-c"]
-CMD ["bash"]
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "-s","--"]

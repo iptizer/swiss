@@ -1,26 +1,38 @@
 # swiss
 
-Whis is my personal troubleshooting container. Currently the folowing tools are included:
+Troubleshooting container with lots of tools installed.
 
-* kubectl (latest stable)
-* helm
-* awscli (built from git master)
-* dig (dnsutils)
-* tcpdump
-* nc/ netcat
-* curl & wget
-* traceroute & mtr
-* rclone
-* mariadb client tools
+Container is available on docker hub: [https://hub.docker.com/r/iptizer/swiss](https://hub.docker.com/r/iptizer/swiss)
 
 ## Quickstart
 
 ### Kubernetes
 
-(Note: Newer versions of kubectl deprecate the `--generator` flag, see [StackOverflow](https://stackoverflow.com/questions/52890718/kubectl-run-is-deprecated-looking-for-alternative) linking to [this PR](https://github.com/kubernetes/kubernetes/pull/87077)) 
-
 ```sh
 kubectl run -it --restart=Never --rm --image=iptizer/swiss swiss -- /bin/bash
+```
+
+Deployment/ daemonset within this repo may be used. There are two versions provided:
+
+* Deployment: swiss
+* DaemonSet: swiss-host (Extended privileges with host mounted on pod. Use with caution!)
+
+```sh
+kubectl create ns troubleshoot
+
+# daemonset
+kubectl apply -n troubleshoot -f daemonset.yaml
+kubectl get po -n troubleshoot
+kubectl exec -it swiss-577np -- bash
+kubectl delete -f daemonset.yaml
+
+# deploy - Copy & paste will work
+kubectl apply -n troubleshoot -f deployment.yaml
+kubectl scale -n troubleshoot --replicas=1 deploy/swiss
+kubectl wait  -n troubleshoot --timeout=600s --for=condition=available deploy/swiss && \
+kubectl exec -n troubleshoot -it $( k get po -l "app=swiss" -o jsonpath='{.items[0].metadata.name}' ) -- bash
+kubectl scale -n troubleshoot --replicas=0 deploy/swiss
+kubectl delete -f deployment.yaml
 ```
 
 ### docker
@@ -46,46 +58,10 @@ docker push iptizer/swiss:latest
 
 ## Use cases
 
-## Troubleshooting disc pressure on node
+### Troubleshooting disc pressure on node
 
-To debug disc space on a node, we start a pod which has the host system mounted. We can then attach to this pod, use *ncdu* and hopefully find the problem.
+To debug disc space on a node, use *swiss-host*. We can then attach to the pod on the host we are interested, use *ncdu* and hopefully find the problem.
 
-```sh
-$ NODE=ip-10-10-10-10.eu-central-1.compute.internal
-$ cat <<EOF > troubleshoot.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  creationTimestamp: null
-  labels:
-    run: troubleshoot
-  name: troubleshoot
-spec:
-  nodeName: $NODE
-  hostPID: true
-  hostIPC: true
-  hostNetwork: true
-  containers:
-  - image: iptizer/swiss
-    name: troubleshoot
-    imagePullPolicy: Always
-    resources: {}
-    args:
-    - "sleep 9999"
-    securityContext:
-      privileged: true
-    volumeMounts:
-        - name: host
-          mountPath: "/host"
-  dnsPolicy: ClusterFirst
-  restartPolicy: Always
-  volumes:
-  - name: host
-    hostPath:
-      path: "/"
-EOF
-$ kubectl apply -f troubleshoot.yaml
-$ kubectl get pods -w
-$ kubectl exec -it troubleshoot -- bash
-$ kubectl delete po troubleshoot
-```
+### Jumphost
+
+Connect to a swiss pod and use *tmux* to jump whereever you want.

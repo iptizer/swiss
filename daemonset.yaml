@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app: swiss-host
+    type: DaemonSet
+  name: swiss
+spec:
+  selector:
+    matchLabels:
+      app: swiss-host
+      type: DaemonSet
+  template:
+    metadata:
+      labels:
+        app: swiss-host
+        type: DaemonSet
+    spec:
+      hostPID: true
+      hostIPC: true
+      hostNetwork: true
+      containers:
+        - image: iptizer/swiss
+          name: troubleshoot
+          imagePullPolicy: Always
+          resources: {}
+          args:
+            # 1 week
+            - "sh"
+            - "-c"
+            - "sleep 604800"
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: host
+              mountPath: "/host"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+        - name: host
+          hostPath:
+            path: "/"
