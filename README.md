@@ -1,5 +1,8 @@
 # swiss
 
+<img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/iptizer/swiss"> <img alt="Docker Cloud Automated build" src="https://img.shields.io/docker/cloud/automated/iptizer/swiss">
+
+
 Troubleshooting container with lots of tools installed.
 
 Container is available on docker hub: [https://hub.docker.com/r/iptizer/swiss](https://hub.docker.com/r/iptizer/swiss)
