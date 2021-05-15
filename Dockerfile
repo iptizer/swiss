@@ -1,6 +1,10 @@
 FROM ubuntu:latest
+ARG TARGETARCH
 
 WORKDIR /
+
+# debug
+RUN echo "ARCH: $TARGETARCH"
 
 # set bash as default shell
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -19,7 +23,7 @@ RUN git clone --depth=1 https://github.com/aws/aws-cli.git
 RUN pip3 install aws-cli/
 
 # kubectl
-RUN curl -o /usr/local/sbin/kubectl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && chmod 777 /usr/local/sbin/kubectl
+RUN curl -o /usr/local/sbin/kubectl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/${TARGETARCH}/kubectl && chmod 777 /usr/local/sbin/kubectl
 
 # helm
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh && rm ./get_helm.sh
@@ -32,6 +36,6 @@ apt-key add - < Release.key && apt-get -y update && apt-get -y install skopeo
 
 
 ENV TINI_VERSION v0.19.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${TARGETARCH} /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "-s","--"]
