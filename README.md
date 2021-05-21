@@ -5,6 +5,11 @@
 
 Troubleshooting container with lots of tools installed.
 
+Supported architectures:
+
+* **amd64** (x86_64)
+* **arm64** (aarch64)
+
 Container is available on docker hub: [https://hub.docker.com/r/iptizer/swiss](https://hub.docker.com/r/iptizer/swiss)
 
 ## Quickstart
@@ -53,6 +58,15 @@ docker run --rm --env HTTP_PROXY=${HTTP_PROXY} --env HTTPS_PROXY=${HTTP_PROXY} -
 ```
 
 ## Manual local build
+
+Both architectures:
+
+```sh
+docker login
+docker buildx build --push --platform linux/arm64,linux/amd64 -t iptizer/swiss:latest .
+```
+
+Only arm64:
 
 ```sh
 docker build . -t iptizer/swiss:latest
