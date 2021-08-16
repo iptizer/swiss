@@ -49,12 +49,6 @@ RUN git clone https://github.com/tfutils/tfenv.git ~/.tfenv && \
     chmod u+x terragrunt && \
     mv terragrunt /usr/local/bin/terragrunt 
 
-
-# Terraform & Terragrunt
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - && \
-    apt-add-repository "deb [arch=${TARGETARCH}] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
-    apt-get update && apt-get install terraform
-
 # skopeo
 RUN . /etc/os-release && \
     echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${ID^}_${VERSION_ID}/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list && \
