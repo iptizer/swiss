@@ -18,9 +18,6 @@ spec:
         app: swiss
         type: Deployment
     spec:
-      hostPID: true
-      hostIPC: true
-      hostNetwork: true
       containers:
         - image: iptizer/swiss
           name: troubleshoot
@@ -31,14 +28,5 @@ spec:
             - "sh"
             - "-c"
             - "sleep 604800"
-          securityContext:
-            privileged: true
-          volumeMounts:
-            - name: host
-              mountPath: "/host"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
-      volumes:
-        - name: host
-          hostPath:
-            path: "/"

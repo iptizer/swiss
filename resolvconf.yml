@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    run: resolvconf
+  name: resolvconf
+spec:
+  selector:
+    matchLabels:
+      run: resolvconf
+  template:
+    metadata:
+      labels:
+        run: resolvconf
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node.kubernetes.io/os
+                operator: In
+                values:
+                - linux
+              - key: node.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - cat /read/etc/resolv.conf && sleep 7200
+        image: radial/busyboxplus
+        name: resolvconf
+        volumeMounts:
+        - mountPath: /read
+          name: read-volume
+          readOnly: true
+        securityContext:
+          privileged: true
+      volumes:
+      - name: read-volume
+        hostPath:
+          path: /
+      priorityClassName: system-cluster-critical
+      tolerations:
+      - operator: Exists
