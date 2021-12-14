@@ -1,7 +1,6 @@
 # swiss
 
-<img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/iptizer/swiss"> <img alt="Docker Cloud Automated build" src="https://img.shields.io/docker/cloud/automated/iptizer/swiss">
-
+[![build-multiarch](https://github.com/iptizer/swiss/actions/workflows/build.yml/badge.svg)](https://github.com/iptizer/swiss/actions/workflows/build.yml)
 
 Troubleshooting container with lots of tools installed.
 
