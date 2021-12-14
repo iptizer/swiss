@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y curl less groff dnsutils netcat tcpdump
 
 # build aws cli from git master
 RUN apt-get install -y python3 python3-pip git
-RUN git clone --depth=1 https://github.com/aws/aws-cli.git
+RUN git clone --branch 2.4.6 --depth=1 https://github.com/aws/aws-cli.git
 RUN pip3 install aws-cli/
 
 # git-crypt
