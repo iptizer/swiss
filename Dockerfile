@@ -17,10 +17,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # install basic tools
 RUN apt-get update && apt-get install -y curl less groff dnsutils netcat tcpdump wget traceroute mtr rclone mariadb-client vim pv jq iputils-ping ncdu tmux iperf3 iproute2 unzip
 
-# build aws cli from git master
-RUN apt-get install -y python3 python3-pip git
-RUN git clone --depth=1 https://github.com/aws/aws-cli.git
-RUN pip3 install aws-cli/
+# install aws cli as explained in docs https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#cliv2-linux-install
+RUN apt-get install -y python3 python3-pip git \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-${TARGETARCH}.zip" -o "awscliv2.zip" \
+    unzip awscliv2.zip \
+    sudo ./aws/install
 
 # kubectl
 RUN curl -o /usr/local/sbin/kubectl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/${TARGETARCH}/kubectl && chmod 777 /usr/local/sbin/kubectl
