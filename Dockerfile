@@ -27,8 +27,8 @@ RUN if [[ "$TARGETARCH" == "amd64" ]] ; then export AWSARCH="x86_64" ; else expo
     sudo ./aws/install
 
 # git-crypt
-RUN git clone https://github.com/AGWA/git-crypt.git && \
-    cd git-crypt && make && make install && cd .. && rm -rf git-crypt
+# RUN git clone https://github.com/AGWA/git-crypt.git && \
+#     cd git-crypt && make && make install && cd .. && rm -rf git-crypt
 
 # aws-iam-authenticator
 RUN curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/${TARGETARCH}/aws-iam-authenticator && \
