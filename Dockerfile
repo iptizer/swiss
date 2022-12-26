@@ -20,9 +20,9 @@ RUN apt-get update && apt-get install -y curl less groff dnsutils netcat tcpdump
     iproute2 unzip gnupg software-properties-common sudo libssl-dev
 
 # install aws cli as explained in docs https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#cliv2-linux-install
-RUN apt-get install -y python3 python3-pip git \
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-${TARGETARCH}.zip" -o "awscliv2.zip" \
-    unzip awscliv2.zip \
+RUN apt-get install -y python3 python3-pip git && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-${TARGETARCH}.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
     sudo ./aws/install
 
 # git-crypt
