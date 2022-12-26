@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   creationTimestamp: null
   labels:
@@ -7,11 +7,6 @@ metadata:
     type: Deployment
   name: swiss
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: swiss
-      type: Deployment
   template:
     metadata:
       labels:
@@ -28,6 +23,6 @@ spec:
             # 1 week
             - "sh"
             - "-c"
-            - "sleep 604800"
+            - "sleep 5"
       dnsPolicy: ClusterFirst
-      restartPolicy: Always
+      restartPolicy: Never
