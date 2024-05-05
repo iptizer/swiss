@@ -32,21 +32,31 @@ RUN curl -o /usr/local/sbin/kubectl -LO https://storage.googleapis.com/kubernete
 # helm
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh && rm ./get_helm.sh
 
-# tfenv
-RUN git clone https://github.com/tfutils/tfenv.git ~/.tfenv && \
-    echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile && \
-    echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bashrc && \
-    ~/.tfenv/bin/tfenv install 0.12.31 && \
-    ~/.tfenv/bin/tfenv use 0.12.31 && \
-    curl -Lo terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.31.4/terragrunt_linux_amd64 && \
-    chmod u+x terragrunt && \
-    mv terragrunt /usr/local/bin/terragrunt 
+# tenv
+RUN LATEST_VERSION=$(curl --silent https://api.github.com/repos/tofuutils/tenv/releases/latest | jq -r .tag_name) && \
+    curl -O -L "https://github.com/tofuutils/tenv/releases/latest/download/tenv_${LATEST_VERSION}_amd64.deb" && \
+    dpkg -i "tenv_${LATEST_VERSION}_amd64.deb" && \
+    tenv tofu install latest-stable && \
+    tenv tf install latest-stable && \
+    tenv tg install latest-stable
 
-# skopeo
-RUN . /etc/os-release && \
-    echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${ID^}_${VERSION_ID}/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list && \
-    wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x${ID^}_${VERSION_ID}/Release.key -O Release.key && \
-    apt-key add - < Release.key && apt-get -y update && apt-get -y install skopeo
+    # #  to be removed when tenv works
+# # tfenv
+# RUN git clone https://github.com/tfutils/tfenv.git ~/.tfenv && \
+#     echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile && \
+#     echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bashrc && \
+#     ~/.tfenv/bin/tfenv install 0.12.31 && \
+#     ~/.tfenv/bin/tfenv use 0.12.31 && \
+#     curl -Lo terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.31.4/terragrunt_linux_amd64 && \
+#     chmod u+x terragrunt && \
+#     mv terragrunt /usr/local/bin/terragrunt 
+
+# # disabled 5.5.2024 as build fails because of this
+# # skopeo
+# RUN . /etc/os-release && \
+#     echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${ID^}_${VERSION_ID}/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list && \
+#     wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x${ID^}_${VERSION_ID}/Release.key -O Release.key && \
+#     apt-key add - < Release.key && apt-get -y update && apt-get -y install skopeo
 
 
 ENV TINI_VERSION v0.19.0
