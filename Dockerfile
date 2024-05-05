@@ -35,7 +35,8 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master
 # tenv
 RUN LATEST_VERSION=$(curl --silent https://api.github.com/repos/tofuutils/tenv/releases/latest | jq -r .tag_name) && \
     curl -O -L "https://github.com/tofuutils/tenv/releases/latest/download/tenv_${LATEST_VERSION}_amd64.deb" && \
-    dpkg -i "tenv_${LATEST_VERSION}_${TARGETARCH}.deb" && \
+    if [[ "$TARGETARCH" == "amd64" ]] ; then export TENVARCH="amd64" ; else export TENVARCH="arm" ; fi && \
+    dpkg -i "tenv_${LATEST_VERSION}_${TENVARCH}.deb" && \
     tenv tofu install latest-stable && \
     tenv tf install latest-stable && \
     tenv tg install latest-stable
