@@ -26,15 +26,6 @@ RUN if [[ "$TARGETARCH" == "amd64" ]] ; then export AWSARCH="x86_64" ; else expo
     unzip awscliv2.zip && \
     sudo ./aws/install
 
-# git-crypt
-# RUN git clone https://github.com/AGWA/git-crypt.git && \
-#     cd git-crypt && make && make install && cd .. && rm -rf git-crypt
-
-# aws-iam-authenticator
-RUN curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/${TARGETARCH}/aws-iam-authenticator && \
-    chmod +x ./aws-iam-authenticator && mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && \
-    export PATH=$PATH:$HOME/bin && echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc && echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
-
 # kubectl
 RUN curl -o /usr/local/sbin/kubectl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/${TARGETARCH}/kubectl && chmod 777 /usr/local/sbin/kubectl
 
