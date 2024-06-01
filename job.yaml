@@ -21,8 +21,8 @@ spec:
           resources: {}
           args:
             # 1 week
-            - "sh"
-            - "-c"
-            - "sleep 5"
+            - "devbox"
+            - "run"
+            - "sleep 604800"
       dnsPolicy: ClusterFirst
       restartPolicy: Never

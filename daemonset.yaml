@@ -27,8 +27,8 @@ spec:
           resources: {}
           args:
             # 1 week
-            - "sh"
-            - "-c"
+            - "devbox"
+            - "run"
             - "sleep 604800"
           securityContext:
             privileged: true
