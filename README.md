@@ -13,7 +13,6 @@ Container is available on docker hub: [https://hub.docker.com/r/iptizer/swiss](h
 
 ## Quickstart
 
-
 ### Kubernetes
 
 ```sh
@@ -76,6 +75,15 @@ docker build . -t iptizer/swiss:latest
 docker push iptizer/swiss:latest
 ```
 
+## local devbox
+
+To start the local devbox and install new packages proceed as follows:
+
+```sh
+devbox shell
+
+```
+
 ## Use cases
 
 ### Troubleshooting disc pressure on node
@@ -85,3 +93,5 @@ To debug disc space on a node, use *swiss-host*. We can then attach to the pod o
 ### Jumphost
 
 Connect to a swiss pod and use *tmux* to jump whereever you want.
+
+
