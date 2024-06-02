@@ -13,7 +13,7 @@ Container is available on docker hub: [https://hub.docker.com/r/iptizer/swiss](h
 
 ## Quickstart
 
-[![Open In Devbox.sh](https://www.jetify.com/img/devbox/open-in-devbox.svg)](https://devbox.sh/iptizer/swiss)
+
 
 ### Kubernetes
 
