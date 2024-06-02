@@ -21,7 +21,8 @@
     "iperf3@latest",
     "awscli2@latest",
     "terraform@latest",
-    "terragrunt@latest"
+    "terragrunt@latest",
+    "dive@latest"
   ],
   "shell": {
     "init_hook": [
