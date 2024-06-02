@@ -1,16 +1,15 @@
 FROM jetpackio/devbox:latest
 
 # Installing your devbox project
-WORKDIR /workspace
+WORKDIR /code
 USER root:root
-RUN mkdir -p /workspace && chown ${DEVBOX_USER}:${DEVBOX_USER} /workspace
+RUN mkdir -p /code && chown ${DEVBOX_USER}:${DEVBOX_USER} /code
 USER ${DEVBOX_USER}:${DEVBOX_USER}
 COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.json devbox.json
 COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.lock devbox.lock
 
-RUN devbox shell --init --config /workspace/devbox.json \
-  echo 'source /workspace/.devbox/bin/activate' >> /workspace/.bashrc
+
 
 RUN devbox run -- echo "Installed Packages."
 
-CMD ["bash"]
+CMD ["devbox", "shell"]
