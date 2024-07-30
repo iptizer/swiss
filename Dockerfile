@@ -12,4 +12,5 @@ RUN devbox run -- echo "Installed Packages."
 RUN devbox shell
 #RUN echo "devbox shell" > .bashrc
 
-CMD ["bash"]
+#CMD ["bash"]
+CMD ["devbox", "shell"]
