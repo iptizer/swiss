@@ -9,8 +9,9 @@ COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.json devbox.json
 COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.lock devbox.lock
 
 RUN devbox run -- echo "Installed Packages."
-RUN devbox shell
-#RUN echo "devbox shell" > .bashrc
 
-#CMD ["bash"]
-CMD ["devbox", "shell"]
+# Automatically load the devbox environment for any shell session
+RUN echo 'eval "$(devbox shellenv)"' >> /home/${DEVBOX_USER}/.bashrc && \
+    echo 'eval "$(devbox shellenv)"' >> /home/${DEVBOX_USER}/.profile
+
+CMD ["bash", "-l"]

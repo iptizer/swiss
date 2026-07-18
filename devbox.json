@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.10.6/.schema/devbox.schema.json",
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/v0.17.5/.schema/devbox.schema.json",
   "packages": [
     "curl@latest",
     "less@latest",
@@ -22,7 +22,22 @@
     "awscli2@latest",
     "terraform@latest",
     "terragrunt@latest",
-    "dive@latest"
+    "dive@latest",
+    "git@latest",
+    "google-cloud-sdk@latest",
+    "kubernetes-helm@latest",
+    "k9s@latest",
+    "yq-go@latest",
+    "stern@latest",
+    "fzf@latest",
+    "opentofu@latest",
+    "tenv@latest",
+    "doggo@latest",
+    "btop@latest",
+    "eza@latest",
+    "bat@latest",
+    "fd@latest",
+    "ripgrep@latest"
   ],
   "shell": {
     "init_hook": [

@@ -2,7 +2,7 @@
 
 [![build-multiarch](https://github.com/iptizer/swiss/actions/workflows/build.yml/badge.svg)](https://github.com/iptizer/swiss/actions/workflows/build.yml)
 
-Troubleshooting container with lots of tools installed.
+Troubleshooting container with a rich set of modern developer and diagnostic tools managed via Jetify Devbox.
 
 Supported architectures:
 
@@ -11,14 +11,22 @@ Supported architectures:
 
 Container is available on docker hub: [https://hub.docker.com/r/iptizer/swiss](https://hub.docker.com/r/iptizer/swiss)
 
+### Features & Included Tools
+
+* **Core Utilities:** `curl`, `wget`, `netcat`, `tcpdump`, `dnsutils`, `git`, `jq`, `yq-go`, `tmux`, `vim`, `pv`
+* **Kubernetes Suite:** `kubectl`, `kubectx`, `kubernetes-helm`, `k9s`, `stern`
+* **Cloud & IaC:** `awscli2`, `google-cloud-sdk`, `terraform`, `terragrunt`, `opentofu`, `tenv`
+* **Modern CLI Replacements:** `doggo` (dig), `btop` (htop/top), `eza` (ls), `bat` (cat), `fd` (find), `ripgrep` (grep), `fzf` (fuzzy finder)
+* **Networking & Storage:** `mtr`, `rclone`, `mariadb-client`, `ncdu`, `duf`, `iperf3`
+
+The Nix environment is automatically loaded into the PATH on interactive shells (`bash`).
+
 ## Quickstart
-
-
 
 ### Kubernetes
 
 ```sh
-kubectl run -it --restart=Never --rm --image=iptizer/swiss swiss
+kubectl run -it --restart=Never --rm --image=iptizer/swiss swiss -- bash
 ```
 
 Deployment/ daemonset within this repo may be used. There are two versions provided:
@@ -32,14 +40,14 @@ kubectl create ns troubleshoot
 # daemonset
 kubectl apply -n troubleshoot -f daemonset.yaml
 kubectl get po -n troubleshoot
-kubectl exec -it swiss-577np -- bash
+kubectl exec -it swiss-577np -n troubleshoot -- bash
 kubectl delete -f daemonset.yaml
 
 # deploy - Copy & paste will work
 kubectl apply -n troubleshoot -f deployment.yaml
 kubectl scale -n troubleshoot --replicas=1 deploy/swiss
 kubectl wait  -n troubleshoot --timeout=600s --for=condition=available deploy/swiss && \
-kubectl exec -n troubleshoot -it $( k get po -l "app=swiss" -o jsonpath='{.items[0].metadata.name}' )
+kubectl exec -n troubleshoot -it $( k get po -l "app=swiss" -o jsonpath='{.items[0].metadata.name}' ) -- bash
 kubectl scale -n troubleshoot --replicas=0 deploy/swiss
 kubectl delete -f deployment.yaml
 

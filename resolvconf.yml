@@ -26,7 +26,6 @@ spec:
                 operator: In
                 values:
                 - amd64
-    spec:
       containers:
       - command:
         - /bin/sh

@@ -20,9 +20,7 @@ spec:
           imagePullPolicy: Always
           resources: {}
           args:
-            # 1 week
-            - "devbox"
-            - "run"
-            - "sleep 604800"
+            - "sleep"
+            - "infinity"
       dnsPolicy: ClusterFirst
       restartPolicy: Never
