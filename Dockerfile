@@ -6,7 +6,7 @@ USER root:root
 RUN mkdir -p /home/${DEVBOX_USER} && chown ${DEVBOX_USER}:${DEVBOX_USER} /home/${DEVBOX_USER}
 USER ${DEVBOX_USER}:${DEVBOX_USER}
 COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.json devbox.json
-COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.lock devbox.lock
+
 
 RUN devbox run -- echo "Installed Packages."
 
